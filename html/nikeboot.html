@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/catalogoestilo.css">
-    <title>Nike Campo 7</title>
+    <title>Nike</title>
 </head>
 <body>
-
-     <!-- Menu -->
-     <header>
+    <!-- Menu -->
+    <header>
         <nav>
             <ul>
                 <li><a href="index.html">Página Inicial</a></li>
@@ -22,33 +21,39 @@
     <!-- Catálogo -->
     <main>
         <h1>Catálogo de Produtos</h1>
-        <div class="catalogo">
-            <div class="produto">
-                <a href="produto1.html">
-                    <img src="images/chuteira-nike-mercurial-superfly-7-club-unissex-6363-removebg-preview.png" alt="Produto 1">
-                    <h2>Produto 1</h2>
-                    <p>R$ 100,00</p>
-                    <p>Frete Grátis pro Brasil</p>
-                </a>
-            </div>
-            <div class="produto">
-                <a href="produto2.html">
-                    <img src="images/chuteira-society-nike-mercurial-superfly-7-flash-crimson0-bfaa27a04ffb7d7c3316812201460167-1024-1024-9b4cf5cbe989d7b0a816857505508895-1024-1024-removebg-preview.png" alt="Produto 2">
-                    <h2>Produto 2</h2>
-                    <p>R$ 150,00</p>
-                    <p>Frete Grátis pro Brasil</p>
-                </a>
-            </div>
-            <div class="produto">
-                <a href="produto3.html">
-                    <img src="images/chuteira-nike-mercurial-superfly-7-club-unissex-6363-removebg-preview.png" alt="Produto 3">
-                    <h2>Produto 3</h2>
-                    <p>R$ 200,00</p>
-                </a>
-            </div>
-            <!-- Adicione mais produtos conforme necessário -->
+        <div class="catalogo" id="catalogo">
+            <!-- Produtos serão adicionados aqui dinamicamente -->
         </div>
     </main>
+
+    <script>
+        // Recuperar produtos do localStorage
+        const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+        const catalogo = document.getElementById('catalogo');
+
+        // Função para exibir os produtos no catálogo
+        function exibirProdutos() {
+            produtos.forEach(produto => {
+                const produtoDiv = document.createElement('div');
+                produtoDiv.classList.add('produto');
+
+                produtoDiv.innerHTML = `
+                    <a href="#">
+                        <img src="${produto.fotoURL}" alt="${produto.nome}">
+                        <h2>${produto.nome}</h2>
+                        <p>R$ ${produto.preco}</p>
+                        <p>Tamanhos: ${produto.tamanhos.join(', ')}</p>
+                    </a>
+                `;
+
+                catalogo.appendChild(produtoDiv);
+            });
+        }
+
+        // Chama a função para exibir os produtos ao carregar a página
+        exibirProdutos();
+    </script>
     
 </body>
 </html>

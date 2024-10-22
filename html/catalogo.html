@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/catalogoestilo.css">
+    <title>Catálogo de Produtos</title>
+</head>
+<body>
+    <!-- Menu -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Página Inicial</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="lojista.html">Lojista</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Filtros -->
+    <main>
+        <h1>Catálogo de Produtos</h1>
+
+        <label for="marcaFiltro">Marca:</label>
+        <select id="marcaFiltro">
+            <option value="">Todas</option>
+            <option value="Nike">Nike</option>
+            <option value="Adidas">Adidas</option>
+            <option value="Puma">Puma</option>
+            <!-- Outras marcas podem ser adicionadas aqui -->
+        </select>
+
+        <label for="tipoFiltro">Tipo:</label>
+        <select id="tipoFiltro">
+            <option value="">Todos</option>
+            <option value="Futebol 7">Futebol 7</option>
+            <option value="Futebol de Campo">Futebol de Campo</option>
+            <option value="Society">Society</option>
+            <!-- Outros tipos podem ser adicionados aqui -->
+        </select>
+
+        <button onclick="filtrarProdutos()">Filtrar</button>
+
+        <div class="catalogo" id="catalogo">
+            <!-- Produtos serão adicionados aqui dinamicamente -->
+        </div>
+    </main>
+
+    <script src="js/filtro.js"></script>
+</body>
+</html>
