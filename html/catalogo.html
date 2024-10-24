@@ -42,11 +42,64 @@
 
         <button onclick="filtrarProdutos()">Filtrar</button>
 
+        <!-- Catálogo de Produtos -->
         <div class="catalogo" id="catalogo">
             <!-- Produtos serão adicionados aqui dinamicamente -->
         </div>
     </main>
 
-    <script src="js/filtro.js"></script>
+    <script>
+        // Carregar produtos do localStorage
+        const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+        function renderizarCatalogo() {
+            const catalogoDiv = document.getElementById('catalogo');
+            catalogoDiv.innerHTML = ''; // Limpa o catálogo para re-renderizar
+
+            produtos.forEach(produto => {
+                const produtoDiv = document.createElement('div');
+                produtoDiv.classList.add('produto');
+
+                produtoDiv.innerHTML = `
+                    <img src="${produto.fotoURL}" alt="${produto.nome}">
+                    <h3>${produto.nome}</h3>
+                    <p>R$ ${produto.preco}</p>
+                    <a href="${produto.nome}.html">Ver detalhes</a>
+                `;
+
+                catalogoDiv.appendChild(produtoDiv);
+            });
+        }
+
+        function filtrarProdutos() {
+            const marcaFiltro = document.getElementById('marcaFiltro').value;
+            const tipoFiltro = document.getElementById('tipoFiltro').value;
+
+            const produtosFiltrados = produtos.filter(produto => {
+                return (marcaFiltro === "" || produto.marca === marcaFiltro) &&
+                       (tipoFiltro === "" || produto.tipo === tipoFiltro);
+            });
+
+            const catalogoDiv = document.getElementById('catalogo');
+            catalogoDiv.innerHTML = ''; // Limpar antes de exibir os produtos filtrados
+
+            produtosFiltrados.forEach(produto => {
+                const produtoDiv = document.createElement('div');
+                produtoDiv.classList.add('produto');
+
+                produtoDiv.innerHTML = `
+                    <img src="${produto.fotoURL}" alt="${produto.nome}">
+                    <h3>${produto.nome}</h3>
+                    <p>R$ ${produto.preco}</p>
+                    <a href="${produto.nome}.html">Ver detalhes</a>
+                `;
+
+                catalogoDiv.appendChild(produtoDiv);
+            });
+        }
+
+        // Renderiza o catálogo ao carregar a página
+        renderizarCatalogo();
+    </script>
 </body>
 </html>

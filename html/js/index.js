@@ -1,5 +1,6 @@
 const produtoForm = document.getElementById('produtoForm');
 const produtosTabela = document.getElementById('produtosTabela').querySelector('tbody');
+const catalogoDiv = document.getElementById('catalogo');
 
 let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 let editIndex = null;
@@ -43,7 +44,38 @@ function adicionarOuEditarProduto(fotoURL, nome, preco, tamanhos, marca, tipo) {
     // Salvar no localStorage
     localStorage.setItem('produtos', JSON.stringify(produtos));
 
+    // Criar página individual para o produto
+    gerarPaginaProduto(produto);
+
+    // Renderizar a tabela com o novo produto
     renderizarTabela();
+}
+
+function gerarPaginaProduto(produto) {
+    const template = `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${produto.nome}</title>
+    </head>
+    <body>
+        <h1>${produto.nome}</h1>
+        <img src="${produto.fotoURL}" alt="${produto.nome}">
+        <p>Preço: R$ ${produto.preco}</p>
+        <p>Marca: ${produto.marca}</p>
+        <p>Tipo: ${produto.tipo}</p>
+        <p>Tamanhos disponíveis: ${produto.tamanhos.join(', ')}</p>
+    </body>
+    </html>
+    `;
+
+    const blob = new Blob([template], { type: "text/html" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${produto.nome}.html`;
+    link.click();
 }
 
 function renderizarTabela() {
@@ -52,7 +84,7 @@ function renderizarTabela() {
         const row = document.createElement('tr');
 
         row.innerHTML = `
-            <td><img src="${produto.fotoURL}" alt="${produto.nome}"></td>
+            <td><img src="${produto.fotoURL}" alt="${produto.nome}" width="50"></td>
             <td>${produto.nome}</td>
             <td>R$ ${produto.preco}</td>
             <td>${produto.tamanhos.join(', ')}</td>
@@ -82,9 +114,9 @@ function editarProduto(index) {
 
 function excluirProduto(index) {
     produtos.splice(index, 1);
-    localStorage.setItem('produtos', JSON.stringify(produtos)); // Atualiza o localStorage
+    localStorage.setItem('produtos', JSON.stringify(produtos));
     renderizarTabela();
 }
 
-// Renderiza a tabela ao carregar a página
+// Renderizar a tabela ao carregar a página
 renderizarTabela();
